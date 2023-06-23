@@ -3,7 +3,22 @@ const mongoose = require('mongoose');
 const imageSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
+    },
+    age:{
+        type: Number,
+
+    },
+    gender:{
+        type: String,
+    },
+    location:{
+        type: String,
+    },
+    description:{
+        type: String,
+    },
+    contactnumber:{
+        type: Number,
     },
     img: {
         data: Buffer,
