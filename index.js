@@ -34,8 +34,15 @@ const upload = multer({ storage: storage });
 
 app.post("/upload", upload.single("testImage"), async (req, res) => {
 	try {
+	 const {name,description,location,age,contactnum,gender} = req.body;
 	  const saveImage = new Image({
-		name: req.body.name,
+		name,
+		description,
+		location,
+		age,
+		contactnum,
+		gender,
+
 		img: {
 		  data: fs.readFileSync("uploads/" + req.file.filename),
 		  contentType: "image/png",
