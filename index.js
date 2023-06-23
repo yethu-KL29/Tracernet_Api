@@ -5,7 +5,7 @@ const cors = require('cors');
 const app = express();
 const multer = require('multer');
 const fs = require('fs');
-const  Image  = require('./models/lostModel');
+const Image = require('./models/lostModel');
 
 // Import Routes
 const route = require('./router/userRouter');
@@ -19,53 +19,61 @@ app.use(cors());
 
 app.use('/', route);
 
-
 const storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-		cb(null, "./uploads");
-	},
-	filename: (req, file, cb)=> {
-		cb(null, `${(Date.now())}_${file.originalname}`);
-	}
+  destination: function (req, file, cb) {
+    cb(null, './uploads');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}_${file.originalname}`);
+  },
 });
 
 const upload = multer({ storage: storage });
 
+app.post('/upload', upload.single('testImage'), async (req, res) => {
+  try {
+    const { name, description, location, age, contactnum, gender } = req.body;
+    let imageData = {
+      data: fs.readFileSync('./missing.jpeg'), // Read default image
+      contentType: 'image/png',
+    };
 
-app.post("/upload", upload.single("testImage"), async (req, res) => {
-	try {
-	 const {name,description,location,age,contactnum,gender} = req.body;
-	  const saveImage = new Image({
-		name,
-		description,
-		location,
-		age,
-		contactnum,
-		gender,
+    if (req.file) {
+      imageData = {
+        data: fs.readFileSync(`uploads/${req.file.filename}`),
+        contentType: 'image/png',
+      };
+    }
 
-		img: {
-		  data: fs.readFileSync("uploads/" + req.file.filename),
-		  contentType: "image/png",
-		},
-	  });
-  
-	   await saveImage.save();
-	  res.status(200).send('IMAGE SAVED');
-	} catch (err) {
-	  console.log(err);
-	  res.status(500).send("Internal Server Error");
-	}
+    const saveImage = new Image({
+      name,
+      description,
+      location,
+      age,
+      contactnum,
+      gender,
+      img: imageData,
+    });
+
+    await saveImage.save();
+    res.status(200).send('IMAGE SAVED');
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+process.on('unhandledRejection', (error) => {
+  console.log('unhandledRejection', error.message);
+});
+
+mongoose
+  .connect(process.env.DB_CONNECT, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log('Database connected');
   });
   
-  process.on('unhandledRejection', error => {
-	console.log('unhandledRejection', error.message);
-  });
-
-mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => {
-        console.log('Database connected');
-    })
-const port = process.env.PORT ||8000;
+const port = process.env.PORT || 8000;
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+  console.log(`Server is running on port ${port}`);
 });
