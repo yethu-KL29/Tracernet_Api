@@ -1,5 +1,6 @@
 const User = require('../models/userModel');
 const bcrypt = require('bcryptjs');
+const Lost = require('../models/lostModel');
 
 
 
@@ -81,11 +82,27 @@ const userRegister = async (req, res) => {
           });
         }
       }
+
+
+      const getLostdata =async(req,res)=>{
+        try {
+          const lostdata = await Lost.find();
+          res.status(200).json({
+            message: lostdata,
+          });
+        } catch (error) {
+          res.status(500).json({
+            message: error.message,
+          });
+        }
+      }
+
       
 
 
 module.exports ={
     userRegister,
-    userLogin
+    userLogin,
+    getLostdata,
 }
  
