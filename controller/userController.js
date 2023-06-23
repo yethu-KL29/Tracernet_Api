@@ -88,7 +88,7 @@ const userRegister = async (req, res) => {
         try {
           const lostdata = await Lost.find();
           res.status(200).json({
-            message: lostdata,
+             lostdata,
           });
         } catch (error) {
           res.status(500).json({
