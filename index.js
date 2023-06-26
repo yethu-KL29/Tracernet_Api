@@ -78,9 +78,9 @@ const storage2 = multer.diskStorage({
   },
 });
 
-const uploads = multer({ storage: storage });
+const uploadFound = multer({ storage: storage2 });
 
-app.post('/Found', upload.single('testImage'), async (req, res) => {
+app.post('/Found', uploadFound.single('testImage'), async (req, res) => {
   try {
     const { name, description, location, age, contactnum, gender } = req.body;
     let imageData = {
