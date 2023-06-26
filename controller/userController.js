@@ -98,7 +98,7 @@ const userRegister = async (req, res) => {
         }
       }
 
-      const getFounddata =async(req,res)=>{
+      const getFoundData =async(req,res)=>{
         try {
           const founddata = await Found.find();
           res.status(200).json({
@@ -118,6 +118,6 @@ module.exports ={
     userRegister,
     userLogin,
     getLostdata,
-    getFounddata,
+    getFoundData,
 }
  

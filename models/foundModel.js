@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const imageSchema = new mongoose.Schema({
+const  FoundImageSchema = new mongoose.Schema({
     name: {
         type: String,
     },
@@ -26,4 +26,4 @@ const imageSchema = new mongoose.Schema({
     },
 });
 
-module.exports = new mongoose.model('foundImage', imageSchema);
+module.exports = new mongoose.model('foundImage', FoundImageSchema);

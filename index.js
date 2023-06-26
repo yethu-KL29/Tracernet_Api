@@ -6,6 +6,7 @@ const app = express();
 const multer = require('multer');
 const fs = require('fs');
 const Image = require('./models/lostModel');
+const Found = require('./models/foundModel');
 
 // Import Routes
 const route = require('./router/userRouter');
@@ -32,7 +33,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-app.post('/upload', upload.single('testImage'), async (req, res) => {
+app.post('/upload', upload.single('lostImage'), async (req, res) => {
   try {
     const { name, description, location, age, contactnum, gender } = req.body;
     let imageData = {
@@ -80,7 +81,7 @@ const storage2 = multer.diskStorage({
 
 const uploadFound = multer({ storage: storage2 });
 
-app.post('/Found', uploadFound.single('testImage'), async (req, res) => {
+app.post('/Found', uploadFound.single('foundImage'), async (req, res) => {
   try {
     const { name, description, location, age, contactnum, gender } = req.body;
     let imageData = {
@@ -95,7 +96,7 @@ app.post('/Found', uploadFound.single('testImage'), async (req, res) => {
       };
     }
 
-    const saveImage = new Image({
+    const saveImage = new Found({
       name,
       description,
       location,
@@ -109,9 +110,10 @@ app.post('/Found', uploadFound.single('testImage'), async (req, res) => {
     res.status(200).send('IMAGE SAVED');
   } catch (err) {
     console.log(err);
-    res.status(500).send('Internal Server Error');
+    res.status(500).send('Error saving image. Please try again.');
   }
 });
+
 
 process.on('unhandledRejection', (error) => {
   console.log('unhandledRejection', error.message);
