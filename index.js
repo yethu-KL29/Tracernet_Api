@@ -19,6 +19,8 @@ app.use(cors());
 
 app.use('/', route);
 
+//for Lost section
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './uploads');
@@ -41,6 +43,54 @@ app.post('/upload', upload.single('testImage'), async (req, res) => {
     if (req.file) {
       imageData = {
         data: fs.readFileSync(`uploads/${req.file.filename}`),
+        contentType: 'image/png',
+      };
+    }
+
+    const saveImage = new Image({
+      name,
+      description,
+      location,
+      age,
+      contactnum,
+      gender,
+      img: imageData,
+    });
+
+    await saveImage.save();
+    res.status(200).send('IMAGE SAVED');
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+// Found Image Section
+
+
+const storage2 = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploadFound');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}_${file.originalname}`);
+  },
+});
+
+const uploads = multer({ storage: storage });
+
+app.post('/Found', upload.single('testImage'), async (req, res) => {
+  try {
+    const { name, description, location, age, contactnum, gender } = req.body;
+    let imageData = {
+      data: fs.readFileSync('./missing.jpeg'), // Read default image
+      contentType: 'image/png',
+    };
+
+    if (req.file) {
+      imageData = {
+        data: fs.readFileSync(`uploadFound/${req.file.filename}`),
         contentType: 'image/png',
       };
     }

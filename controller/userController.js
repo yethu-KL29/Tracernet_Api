@@ -1,6 +1,7 @@
 const User = require('../models/userModel');
 const bcrypt = require('bcryptjs');
 const Lost = require('../models/lostModel');
+const Found = require('../models/foundModel');
 
 
 
@@ -97,11 +98,26 @@ const userRegister = async (req, res) => {
         }
       }
 
+      const getFounddata =async(req,res)=>{
+        try {
+          const founddata = await Found.find();
+          res.status(200).json({
+              founddata,
+          });
+        } catch (error) {
+          res.status(500).json({
+            message: error.message,
+          });
+        }
+      }
+
+
 
 
 module.exports ={
     userRegister,
     userLogin,
     getLostdata,
+    getFounddata,
 }
  
