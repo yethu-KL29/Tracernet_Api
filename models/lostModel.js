@@ -29,7 +29,7 @@ const imageSchema = new mongoose.Schema({
     },
     complaint:{
         type: String,
-        required: true
+        
     },
     date:{
         type: Date,

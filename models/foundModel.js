@@ -29,7 +29,7 @@ const  FoundImageSchema = new mongoose.Schema({
     },
     complaint:{
         type: String,
-        required: true
+        
     },
     date:{
         type: Date,
