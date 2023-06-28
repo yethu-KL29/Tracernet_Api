@@ -24,6 +24,17 @@ const imageSchema = new mongoose.Schema({
         data: Buffer,
         contentType: String,
     },
+    identification:{
+        type: String,
+    },
+    complaint:{
+        type: String,
+        required: true
+    },
+    date:{
+        type: Date,
+        default: Date.now
+    }
 });
 
 module.exports = new mongoose.model('Image', imageSchema);
