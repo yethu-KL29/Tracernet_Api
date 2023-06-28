@@ -18,7 +18,7 @@ const imageSchema = new mongoose.Schema({
         type: String,
     },
     contactnumber:{
-        type: Number,
+        type: String,
     },
     img: {
         data: Buffer,
