@@ -35,7 +35,7 @@ const upload = multer({ storage: storage });
 
 app.post('/upload', upload.single('testImage'), async (req, res) => {
   try {
-    const { name, description, location, age, contactnum, gender } = req.body;
+    const { name, description, location, age, contactnumber, gender ,identification} = req.body;
     let imageData = {
       data: fs.readFileSync('./missing.jpeg'), // Read default image
       contentType: 'image/png',
@@ -53,9 +53,10 @@ app.post('/upload', upload.single('testImage'), async (req, res) => {
       description,
       location,
       age,
-      contactnum,
+      contactnumber,
       gender,
       img: imageData,
+      identification,
     });
 
     await saveImage.save();
@@ -83,7 +84,7 @@ const uploadFound = multer({ storage: storage2 });
 
 app.post('/Found', uploadFound.single('foundImage'), async (req, res) => {
   try {
-    const { name, description, location, age, contactnum, gender } = req.body;
+    const { name, description, location, age, contactnumber, gender,identification } = req.body;
     let imageData = {
       data: fs.readFileSync('./missing.jpeg'), // Read default image
       contentType: 'image/png',
@@ -101,9 +102,10 @@ app.post('/Found', uploadFound.single('foundImage'), async (req, res) => {
       description,
       location,
       age,
-      contactnum,
+      contactnumber,
       gender,
       img: imageData,
+      identification,
     });
 
     await saveImage.save();
